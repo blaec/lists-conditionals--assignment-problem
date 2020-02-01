@@ -5,11 +5,15 @@ import CharComponent from "./CharComponent/CharComponent";
 
 class App extends Component {
     state = {
+        text: '',
         length: 0
     };
 
     lengthCountHandler = (event) => {
-        this.setState({length: event.target.value.length})
+        this.setState({
+            text: event.target.value,
+            length: event.target.value.length
+        })
     };
 
     render() {
@@ -27,7 +31,7 @@ class App extends Component {
 
                 <input onChange={(event) => this.lengthCountHandler(event)}/>
                 <ValidationComponent textLength={this.state.length}/>
-                <CharComponent/>
+                <CharComponent chars={this.state.text}/>
             </div>
         );
     }
