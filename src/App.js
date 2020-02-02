@@ -1,43 +1,37 @@
 import React, {Component} from 'react';
 import './App.css';
-import ValidationComponent from "./ValidationComponent/ValidationComponent";
-import CharComponent from "./CharComponent/CharComponent";
+import Validation from "./Validation/Validation";
+import Chars from "./Chars/Chars";
 
 class App extends Component {
     state = {
-        text: '',
-        length: 0,
-        chars: []
+        inputText: ''
     };
 
     deleteCharHandler = (charIndex) => {
-        let newText = this.state.text.slice(0, charIndex) + this.state.text.slice(charIndex + 1);
+        // const text = this.state.inputText.split('');
+        // text.splice(charIndex, 1);
+        // const newText = text.join('');
+        let newText = this.state.inputText.slice(0, charIndex) + this.state.inputText.slice(charIndex + 1);
         this.setState({
-            text: newText,
-            length: newText.length,
-            chars: [
-                ...newText.split('')
-            ]
+            inputText: newText
         });
     };
 
 
-    lengthCountHandler = (event) => {
+    inputChangeHandler = (event) => {
         this.setState({
-            text: event.target.value,
-            length: event.target.value.length,
-            chars: [
-                ...event.target.value.split('')
-            ]
+            inputText: event.target.value
         });
     };
 
     render() {
-        let chars =  (
+        let charList =  (
             <div>
-                {this.state.chars.map((char, index) => {
-                    return <CharComponent click={() => this.deleteCharHandler(index)}
-                                          char={char}/>
+                {this.state.inputText.split('').map((char, index) => {
+                    return <Chars character={char}
+                                  key={index}
+                                  click={() => this.deleteCharHandler(index)}/>
                 })}
             </div>
         );
@@ -53,11 +47,12 @@ class App extends Component {
                     <li>When you click a CharComponent, it should be removed from the entered text.</li>
                 </ol>
                 <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
-
-                <input onChange={(event) => this.lengthCountHandler(event)}
-                       value={this.state.text}/>
-                <ValidationComponent textLength={this.state.length}/>
-                {chars}
+                <hr/>
+                <input type="text"
+                       onChange={this.inputChangeHandler}
+                       value={this.state.inputText}/>
+                <Validation textLength={this.state.inputText.length}/>
+                {charList}
             </div>
         );
     }

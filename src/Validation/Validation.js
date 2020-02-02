@@ -1,6 +1,6 @@
 import React from 'react';
 
-const validationComponent = (props) => {
+const validation = (props) => {
     const MIN_LENGTH = 5;
     const MAX_LENGTH = 15;
     let message;
@@ -12,7 +12,11 @@ const validationComponent = (props) => {
         message='The length of entered text is: ' + props.textLength + ' chars';
     }
 
-    return <p>{message}</p>;
+    return (
+        <div>
+            <p>{message}</p>
+        </div>
+    );
 };
 
-export default validationComponent;
+export default validation;
