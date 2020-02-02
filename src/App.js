@@ -6,17 +6,42 @@ import CharComponent from "./CharComponent/CharComponent";
 class App extends Component {
     state = {
         text: '',
-        length: 0
+        length: 0,
+        chars: []
     };
+
+    deleteCharHandler = (charIndex) => {
+        let newText = this.state.text.slice(0, charIndex) + this.state.text.slice(charIndex + 1);
+        this.setState({
+            text: newText,
+            length: newText.length,
+            chars: [
+                ...newText.split('')
+            ]
+        });
+    };
+
 
     lengthCountHandler = (event) => {
         this.setState({
             text: event.target.value,
-            length: event.target.value.length
-        })
+            length: event.target.value.length,
+            chars: [
+                ...event.target.value.split('')
+            ]
+        });
     };
 
     render() {
+        let chars =  (
+            <div>
+                {this.state.chars.map((char, index) => {
+                    return <CharComponent click={() => this.deleteCharHandler(index)}
+                                          char={char}/>
+                })}
+            </div>
+        );
+
         return (
             <div className="App">
                 <ol>
@@ -29,9 +54,10 @@ class App extends Component {
                 </ol>
                 <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
 
-                <input onChange={(event) => this.lengthCountHandler(event)}/>
+                <input onChange={(event) => this.lengthCountHandler(event)}
+                       value={this.state.text}/>
                 <ValidationComponent textLength={this.state.length}/>
-                <CharComponent chars={this.state.text}/>
+                {chars}
             </div>
         );
     }
